@@ -1,14 +1,23 @@
-# FLAO - FiveM Lua Auto Optimizer
+# FLAO Web - FiveM Lua Auto Optimizer
 
-AST-based Lua analyzer and optimizer for FiveM/GTA 5 resources.
+A modern web-based Lua analyzer and optimizer for FiveM/GTA 5 resources built with **Next.js**.
+
+This is a web version of the original [FLAO](https://github.com/ook3D/FLAO) Python project, providing a user-friendly interface for analyzing and optimizing Lua scripts without requiring Python installation.
+
 Built for **Lua 5.3/5.4** (FiveM runtime) with LuaJIT compatibility.
-Experimental but battle-tested with large resource collections.
-
 Originally based on [ALAO](https://github.com/Anomaly-ALAO/ALAO) by Abraham (Priler).
+
+## Features
+
+- **Web-Based Interface** - No installation required, works in any modern browser
+- **Multi-File Analysis** - Upload and analyze individual `.lua` files or entire folders
+- **Real-Time Fixes** - Auto-fix functionality for GREEN severity issues
+- **Detailed Reports** - Color-coded findings with explanations and code samples
+- **Dark Theme** - Optimized for coding with a professional dark interface
 
 ## How it works
 
-Lua code is parsed into an AST (abstract syntax tree), which allows safe code manipulation without breaking things. FLAO analyzes the AST to find performance issues common in FiveM scripts and can automatically fix many of them.
+FLAO Web uses regex-based pattern matching to identify common performance issues in Lua code. The analyzer detects issues across multiple files and provides automatic fixes for safe optimizations.
 
 Key optimizations include:
 - Caching expensive native calls like `PlayerPedId()`, `GetEntityCoords()`, etc.
@@ -18,56 +27,57 @@ Key optimizations include:
 
 ## Quick Start
 
+### Installation
+
+Clone the repository and install dependencies:
+
 ```bash
-python fivem_lua_lint.py [path_to_resources] [options]
+git clone <repository-url>
+cd flao-web
+npm install
+# or
+pnpm install
+# or
+yarn install
+```
 
-# Basic Usage (combinable)
---fix              Fix safe (GREEN) issues automatically
---fix-yellow       Fix unsafe (YELLOW) issues automatically
---fix-debug        Comment out debug statements (log, printf, print, etc.)
---experimental     Enable experimental fixes (string concat in loops, branch-aware counting)
---cache-threshold N  Minimum call count to trigger caching (default: 4)
+### Development
 
---direct           Process scripts directly (single .lua file or folder, no resource structure)
---exclude "exclude.txt"  Exclude certain resources from reports/fixes
+```bash
+npm run dev
+```
 
-# Experimental features
---fix-nil          Auto-fix some nil checks (that could cause errors)
---remove-dead-code / --debloat  Remove dead code from scripts
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-# Reports & Restore
---report [file]    Generate comprehensive report (.txt, .html, .json)
---revert           Restore all .flao-bak backup files (undo fixes)
+### Production Build
 
-# Performance
---timeout [seconds]  Timeout per file (default: 10)
---workers / -j       Parallel workers for fixes (default: CPU count)
+```bash
+npm run build
+npm start
+```
 
-# Output
---verbose / -v     Show detailed output
---quiet / -q       Only show summary
+### Deployment
 
-# Backup Management
---backup / --no-backup        Create .flao-bak files before modifying (default: True)
---list-backups                List all .flao-bak backup files
---backup-all-scripts          Backup ALL scripts to a zip archive before modifications
+Deploy to Vercel with one click:
 
-# Danger Zone
---clean-backups    Remove all .flao-bak backup files
+```bash
+npm run build
+# Then push to GitHub and connect to Vercel for automatic deployments
 ```
 
 ## Requirements
 
-```
-- Python 3.8+
-- luaparser
-- jinja2
-```
+- **Node.js** 18+ or Bun
+- **Modern Browser** (Chrome, Firefox, Safari, Edge)
+- No Python installation needed!
 
-Install dependencies:
-```bash
-pip install luaparser jinja2
-```
+## Usage
+
+1. **Open the application** in your browser
+2. **Upload Lua files** - Drag and drop `.lua` files or click to browse
+3. **View results** - See all findings organized by file and severity
+4. **Apply fixes** - Use the auto-fix button to apply GREEN-level fixes
+5. **Download** - Export the fixed code for use in your FiveM resource
 
 ## Currently Detected Patterns
 
@@ -207,34 +217,27 @@ python fivem_lua_lint.py /path/to/resources --list-backups
 4. **Cache hash keys** - `GetHashKey()` does string hashing; cache results for repeated lookups
 5. **Use `table.concat()` for string building** - Avoid `s = s .. x` in loops
 
-## Example Output
+## Technology Stack
 
-```
-$ python fivem_lua_lint.py ./resources --fix --report report.html
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Runtime**: Server-side analysis (no external API calls)
 
-Scanning: ./resources
-Found 45 resources with 312 Lua files
+## Comparison to Python CLI
 
-Analyzing with 8 workers...
-[100.0%] 312/312 | ETA: 0s
+| Feature | FLAO Web | FLAO CLI |
+|---------|----------|---------|
+| Installation | None (web-based) | Requires Python 3.8+ |
+| Interface | Modern web UI | Command-line |
+| Multi-file analysis | Yes | Yes |
+| Auto-fix | Yes (GREEN only) | Yes (GREEN/YELLOW/DEBUG) |
+| Performance | Fast (client-side) | Fast (parallel processing) |
+| Deployment | Vercel/Cloud | Local machine |
+| Learning curve | Beginner-friendly | Developer-focused |
 
-============================================================
-ANALYSIS SUMMARY
-============================================================
-
-  GREEN  (auto-fixable):    847
-  YELLOW (review needed):    23
-  RED    (info only):        12
-  DEBUG  (logging):         156
-  ----------------------------
-  TOTAL:                   1038
-
-Top issues by type:
-  [G] repeated_PlayerPedId: 234
-  [G] table_insert_append: 189
-  [Y] distance_native: 23
-  [G] repeated_GetEntityCoords: 156
-```
+The web version focuses on core functionality with a user-friendly interface. For advanced features like `--experimental` flags or bulk resource processing, use the original Python CLI.
 
 ## License
 
@@ -242,6 +245,6 @@ MIT License - See original ALAO project for attribution.
 
 ## Credits
 
-- Original ALAO: Abraham (Priler)
-- FiveM adaptation: ook3d
-- Lua parser: [luaparser](https://pypi.org/project/luaparser/)
+- Original FLAO/ALAO: ook3d & Abraham (Priler)
+- Web version: Built with Next.js
+- Parser: Regex-based pattern matching (JavaScript)
