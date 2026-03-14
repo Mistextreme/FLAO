@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 3%;
+  --foreground: 0 0% 98%;
+
+  --card: 0 0% 6%;
+  --card-foreground: 0 0% 98%;
+
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 3%;
+
+  --secondary: 0 0% 12%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 65%;
+
+  --accent: 0 0% 15%;
+  --accent-foreground: 0 0% 98%;
+
+  --border: 0 0% 15%;
+  --ring: 0 0% 30%;
+
+  /* FLAO Severity Colors */
+  --green: 142 76% 45%;
+  --yellow: 45 93% 55%;
+  --red: 0 84% 60%;
+  --blue: 217 91% 60%;
+
+  --radius: 0.5rem;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Code syntax highlighting */
+.code-highlight {
+  @apply bg-yellow/20 text-yellow px-1 rounded;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Code block styling */
+.code-block {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  tab-size: 4;
+}
+
+.code-line {
+  @apply px-4 py-0.5 border-l-2 border-transparent;
+}
+
+.code-line.issue-green {
+  @apply border-l-green bg-green/5;
+}
+
+.code-line.issue-yellow {
+  @apply border-l-yellow bg-yellow/5;
+}
+
+.code-line.issue-red {
+  @apply border-l-red bg-red/5;
+}
+
+.code-line.issue-debug {
+  @apply border-l-blue bg-blue/5;
+}
+
+/* Finding cards */
+.finding-card {
+  @apply border-l-4 bg-card rounded-r-lg p-4;
+}
+
+.finding-card.severity-green {
+  @apply border-l-green;
+}
+
+.finding-card.severity-yellow {
+  @apply border-l-yellow;
+}
+
+.finding-card.severity-red {
+  @apply border-l-red;
+}
+
+.finding-card.severity-debug {
+  @apply border-l-blue;
+}
